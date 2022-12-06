@@ -3,7 +3,7 @@ import { prisma } from './db.server';
 import { getAccessToken } from './session.server';
 
 const generatePin = () => {
-    return `${Math.floor(10000 + Math.random() * 899999)}`;
+    return `${Math.floor(1000 + Math.random() * 8999)}`;
 };
 
 export const createAndSaveQueue = async (request: Request) => {
