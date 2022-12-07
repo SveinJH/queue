@@ -105,7 +105,7 @@ export default function Queue() {
     }, [query, submit]);
 
     return (
-        <main className="flex flex-col items-center">
+        <main className="flex flex-col place-content-center">
             <h1>Your Queue</h1>
             <div>Id: {loaderData?.id}</div>
             <h2>Pin to enter this Queue: {loaderData?.pin}</h2>
