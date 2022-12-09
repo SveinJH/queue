@@ -4,9 +4,10 @@ import { Spinner } from '../util/spinner';
 
 type TrackProps = {
     track: Track;
+    onSongQueued: () => void;
 };
 
-export const TrackItem: React.FC<TrackProps> = ({ track }) => {
+export const TrackItem: React.FC<TrackProps> = ({ track, onSongQueued }) => {
     let fetcher = useFetcher();
 
     const isLoading =
@@ -23,7 +24,7 @@ export const TrackItem: React.FC<TrackProps> = ({ track }) => {
 
     return (
         <li className="list-none w-full my-2">
-            <fetcher.Form method="post">
+            <fetcher.Form method="post" onClick={onSongQueued}>
                 <input type="hidden" name="id" value={uri} />
                 <div className="flex justify-between items-center">
                     <div className="flex items-center mr-2">

@@ -86,7 +86,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 };
 
 export default function Queue() {
-    // const [songsQueued, setSongsQueued] = useState(0);
+    const [songsQueued, setSongsQueued] = useState(0);
     const submit = useSubmit();
     const loaderData = useLoaderData();
     const actionData = useActionData();
@@ -105,28 +105,46 @@ export default function Queue() {
         }
     }, [query, submit]);
 
-    // useEffect(() => {
-    //     const songsQueued = localStorage.getItem('songs-queued');
-    //     if (songsQueued) {
-    //         setSongsQueued(+songsQueued);
-    //     }
-    // }, []);
+    useEffect(() => {
+        const songsQueued = localStorage.getItem('songs-queued');
+        if (songsQueued) {
+            setSongsQueued(+songsQueued);
+        } else {
+            localStorage.setItem('songs-queued', '0');
+        }
+    }, []);
+
+    const handleSongQueued = () => {
+        const numSongsQueued = songsQueued + 1;
+        localStorage.setItem('songs-queued', `${numSongsQueued}`);
+        setSongsQueued(numSongsQueued);
+    };
 
     return (
         <main className="flex flex-col justify-center items-center">
             <h1 className="mt-10">Pin to enter this Queue</h1>
             <h2 className="text-2xl text-yellow-400">{loaderData?.pin}</h2>
-            <input
-                className="text-gray-900 px-2 mb-4 mt-2 py-1 px-4"
-                type="text"
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Song name"
-            />
-            <ul className="flex flex-col items-center w-4/5">
-                {actionData?.tracks?.items?.map((track: Track) => (
-                    <TrackItem track={track} key={track.id} />
-                ))}
-            </ul>
+            {songsQueued <= 2 ? (
+                <>
+                    <input
+                        className="text-gray-900 px-2 mb-4 mt-2 py-1 px-4"
+                        type="text"
+                        onChange={(e) => setQuery(e.target.value)}
+                        placeholder="Song name"
+                    />
+                    <ul className="flex flex-col items-center w-4/5">
+                        {actionData?.tracks?.items?.map((track: Track) => (
+                            <TrackItem
+                                track={track}
+                                key={track.id}
+                                onSongQueued={handleSongQueued}
+                            />
+                        ))}
+                    </ul>
+                </>
+            ) : (
+                <div className="mt-20">Du har queuet 3 sanger. NOK NÅ!</div>
+            )}
         </main>
     );
 }
