@@ -1,6 +1,6 @@
-import { Form, useFetcher } from '@remix-run/react';
-import { useTransition } from 'react';
+import { useFetcher } from '@remix-run/react';
 import type { Track } from '~/models';
+import { Spinner } from '../util/spinner';
 
 type TrackProps = {
     track: Track;
@@ -9,6 +9,9 @@ type TrackProps = {
 export const TrackItem: React.FC<TrackProps> = ({ track }) => {
     let fetcher = useFetcher();
 
+    const isLoading =
+        fetcher.state === 'loading' || fetcher.state === 'submitting';
+
     const {
         uri,
         name,
@@ -16,14 +19,14 @@ export const TrackItem: React.FC<TrackProps> = ({ track }) => {
         album: { images },
     } = track;
 
-    const { height, width, url: imgUrl } = images[0];
+    const { url: imgUrl } = images[0];
 
     return (
         <li className="list-none w-full my-2">
             <fetcher.Form method="post">
                 <input type="hidden" name="id" value={uri} />
                 <div className="flex justify-between items-center">
-                    <div className="flex items-center">
+                    <div className="flex items-center mr-2">
                         <img
                             src={imgUrl}
                             alt="album_cover"
@@ -34,13 +37,15 @@ export const TrackItem: React.FC<TrackProps> = ({ track }) => {
                         <div>
                             <div>{name}</div>
                             <div>
-                                {artists.map((artist) => {
-                                    return (
-                                        <span key={artist.id}>
-                                            {artist.name}
-                                        </span>
-                                    );
-                                })}
+                                {artists
+                                    .map((artist) => {
+                                        return (
+                                            <span key={artist.id}>
+                                                {artist.name}{' '}
+                                            </span>
+                                        );
+                                    })
+                                    .splice(0, 2)}
                             </div>
                         </div>
                     </div>
@@ -50,7 +55,7 @@ export const TrackItem: React.FC<TrackProps> = ({ track }) => {
                         value="queue"
                         className="bg-amber-700 px-2 py-0"
                     >
-                        Queue
+                        {isLoading ? <Spinner /> : 'Queue'}
                     </button>
                 </div>
             </fetcher.Form>

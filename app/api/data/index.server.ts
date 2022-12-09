@@ -48,8 +48,6 @@ export const addTrackToQueueWithToken = async (
     if (token && uri) {
         const searchParams = new URLSearchParams([['uri', uri]]);
 
-        console.log('token', token);
-
         const response = await fetch(
             `${SPOTIFY_API_URL}/me/player/queue?${searchParams.toString()}`,
             {

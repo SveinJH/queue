@@ -86,6 +86,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 };
 
 export default function Queue() {
+    // const [songsQueued, setSongsQueued] = useState(0);
     const submit = useSubmit();
     const loaderData = useLoaderData();
     const actionData = useActionData();
@@ -104,15 +105,22 @@ export default function Queue() {
         }
     }, [query, submit]);
 
+    // useEffect(() => {
+    //     const songsQueued = localStorage.getItem('songs-queued');
+    //     if (songsQueued) {
+    //         setSongsQueued(+songsQueued);
+    //     }
+    // }, []);
+
     return (
-        <main className="flex flex-col place-content-center">
-            <h1>Your Queue</h1>
-            <div>Id: {loaderData?.id}</div>
-            <h2>Pin to enter this Queue: {loaderData?.pin}</h2>
+        <main className="flex flex-col justify-center items-center">
+            <h1 className="mt-10">Pin to enter this Queue</h1>
+            <h2 className="text-2xl text-yellow-400">{loaderData?.pin}</h2>
             <input
-                className="text-gray-900 px-2 mb-4"
+                className="text-gray-900 px-2 mb-4 mt-2 py-1 px-4"
                 type="text"
                 onChange={(e) => setQuery(e.target.value)}
+                placeholder="Song name"
             />
             <ul className="flex flex-col items-center w-4/5">
                 {actionData?.tracks?.items?.map((track: Track) => (
