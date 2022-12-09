@@ -124,7 +124,7 @@ export default function Queue() {
         <main className="flex flex-col justify-center items-center">
             <h1 className="mt-10">Pin to enter this Queue</h1>
             <h2 className="text-2xl text-yellow-400">{loaderData?.pin}</h2>
-            {songsQueued <= 2 ? (
+            {songsQueued <= 3 ? (
                 <>
                     <input
                         className="text-gray-900 px-2 mb-4 mt-2 py-1 px-4"
